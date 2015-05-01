@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://nervgh.github.io/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="http://nervgh.github.io/css/animate.min.css" />
+    <link rel="stylesheet" href="http://nervgh.github.io/css/angular.css" />
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.min.js"></script>
+	<script type="text/javascript">
+		// set angular module
+		// study url : http://programmingsummaries.tistory.com/119
+		var myApp=angular.module('myApp',[]);
+
+		myApp.controller('todoController',function($scope,$http) {
+			$http.get('todo.json').success(function(data) {
+				$scope.todos=data;
+			});
+
+			$scope.addTodo=function() {
+				if($scope.newTodo) {
+					$scope.todos.push({
+						"check":"",
+						"work":$scope.newTodo
+					});
+
+					$scope.newTodo=null;
+				} else {
+					alert('할 일을 입력해주세요!');
+				}
+			}
+		});
+	</script>
+</head>
+<body>
+	<div ng-app="myApp">
+		<div ng-controller="todoController">
+			<ul>
+				<li ng-repeat="todo in todos">
+					<!-- modify ng-model -->
+					<input type="checkbox" ng-model="todo.check" />
+					{{todo.work}}
+				</li>
+			</ul>
+
+			<input type="text" ng-model="newTodo" />
+			<input type="button" value="할일 추가" ng-click="addTodo()" />
+		</div>
+	</div>
+</body>
+</html>
